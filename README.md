@@ -1,1 +1,1 @@
-# LR1_lab2_algorithms_and_data_structures
+# lab2_algorithms_and_data_structures
