@@ -1,18 +1,20 @@
-class LinkedList:
+import typing
+T = typing.TypeVar('T', int, bool, float, str)
+
+
+class LinkedList(typing.Generic[T]):
 
     class __Node:
 
-        def __init__(self, element=None, next_node=None) -> None:
+        def __init__(self, element=None, next_node=None):
             self.element = element
             self.next_node = next_node
 
-
-    def __init__(self) -> None:
+    def __init__(self):
         self.__head = None
         self.__length = 0
 
-
-    def append(self, element) -> None:
+    def append(self, element: T) -> None:
 
         if not self.__head:
             self.__head = self.__Node(element)
@@ -27,8 +29,7 @@ class LinkedList:
 
         self.__length += 1
 
-
-    def __getitem__(self, index):
+    def __getitem__(self, index: int) -> None:
         if index < 0:
             raise IndexError("Вставка по отрицательному индексу не предусмотрена")
         elif index >= self.__length:
@@ -43,7 +44,7 @@ class LinkedList:
 
         self.__length += 1
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         if self.__length == 0:
             return '[]'
         else:
@@ -55,7 +56,7 @@ class LinkedList:
             llist_string += f'{node.element}]'
             return llist_string
 
-    def insert(self,index,element: int):
+    def insert(self,index: int, element: T) -> T:
         if index < 0:
             raise IndexError("Вставка по отрицательному индексу не предусмотрена")
         elif index > self.__length + 1:
@@ -75,7 +76,7 @@ class LinkedList:
             self.__length += 1
             return element
 
-    def get_elem(self,index):
+    def get_elem(self, index: int) -> T:
         if index < 0:
             raise IndexError("Получение элемента по отрицательному индексу не предусмотрено")
         elif index > self.__length + 1:
@@ -90,10 +91,10 @@ class LinkedList:
 
         return node.element
 
-    def __len__(self):
+    def __len__(self) -> int:
         return self.__length
 
-    def pop(self, index):
+    def pop(self, index: int) -> T:
         if index < 0:
             raise IndexError("Удаление по отрицательному индексу не предусмотрено")
         elif index > self.__length + 1:
@@ -117,20 +118,17 @@ class LinkedList:
         self.__length -= 1
         return element
 
-    def pop_front(self):
+    def pop_front(self) -> None:
         temp = self.__head
         self.__head = temp.next_node
         del temp
         self.__length -= 1
 
-    def clear(self):
+    def clear(self) -> None:
         while self.__length:
             self.pop_front()
 
 
-    def push_front(self, data):
+    def push_front(self, data) -> None:
         self.__head = self.__Node(data, next_node=self.__head)
         self.__length += 1
-
-
-llist = LinkedList()
