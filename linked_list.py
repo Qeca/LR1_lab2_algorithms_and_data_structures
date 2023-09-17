@@ -7,55 +7,78 @@ class LinkedList:
             self.next_node = next_node
 
 
-    def __init__(self, head=None, length=0) -> None:
-        if head != None and length != 0:
-            raise ValueError("В инициализатор не суй ничего")
-        self.__head = head
-        self.__length = length
-
+    def __init__(self) -> None:
+        self.__head = None
+        self.__length = 0
 
 
     def append(self, element) -> None:
+
         if not self.__head:
             self.__head = self.__Node(element)
-            return element
-        node = self.__head
 
-        while node.next_node:
-            node = node.next_node
+        else:
+            node = self.__head
 
-        node.next_node = self.__Node(element)
+            while node.next_node:
+                node = node.next_node
+
+            node.next_node = self.__Node(element)
+
         self.__length += 1
 
-    @property
-    def out(self) -> str:
-        node = self.__head
-        llist_string = '['
-        while node.next_node:
-            llist_string += f'{node.element},'
-            node = node.next_node
-        llist_string += f'{node.element}]'
-        return llist_string
 
-    def insert(self,element,index: int):
+    def __getitem__(self, index):
         if index < 0:
             raise IndexError("Вставка по отрицательному индексу не предусмотрена")
-        elif index > self.__length:
+        elif index >= self.__length:
             raise IndexError("Выход за границы списка")
-        i = 0
         node = self.__head
-        while i < index:
-            prev_node = node
+        counter = 0
+        while node:
+            if counter == index:
+                return node.element
             node = node.next_node
-            i += 1
-        prev_node.next_node = self.__Node(element, next_node=node)
+            counter += 1
+
         self.__length += 1
-        return element
+
+    def __repr__(self):
+        if self.__length == 0:
+            return '[]'
+        else:
+            node = self.__head
+            llist_string = '['
+            while node.next_node:
+                llist_string += f'{node.element},'
+                node = node.next_node
+            llist_string += f'{node.element}]'
+            return llist_string
+
+    def insert(self,index,element: int):
+        if index < 0:
+            raise IndexError("Вставка по отрицательному индексу не предусмотрена")
+        elif index > self.__length + 1:
+            raise IndexError("Выход за границы списка")
+        if index == 0:
+            self.push_front(element)
+            return element
+        else:
+            i = 0
+            node = self.__head
+            prev_node = self.__head
+            while i <= index:
+                prev_node = node
+                node = node.next_node
+                i += 1
+            prev_node.next_node = self.__Node(element, next_node=node)
+            self.__length += 1
+            return element
 
     def get_elem(self,index):
         if index < 0:
             raise IndexError("Получение элемента по отрицательному индексу не предусмотрено")
-        elif index > self.__length:
+        elif index > self.__length + 1:
             raise IndexError("Выход за границы списка")
         i = 0
         node = self.__head
@@ -67,13 +90,13 @@ class LinkedList:
 
         return node.element
 
-    def size(self) -> int:
-        return self.__length + 1
+    def __len__(self):
+        return self.__length
 
-    def delete(self, index):
+    def pop(self, index):
         if index < 0:
             raise IndexError("Удаление по отрицательному индексу не предусмотрено")
-        elif index > self.__length:
+        elif index > self.__length + 1:
             raise IndexError("Выход за границы списка")
         if index == 0:
             self.__head = self.__head.next_node
@@ -94,6 +117,20 @@ class LinkedList:
         self.__length -= 1
         return element
 
+    def pop_front(self):
+        temp = self.__head
+        self.__head = temp.next_node
+        del temp
+        self.__length -= 1
+
+    def clear(self):
+        while self.__length:
+            self.pop_front()
+
+
+    def push_front(self, data):
+        self.__head = self.__Node(data, next_node=self.__head)
+        self.__length += 1
+
 
 llist = LinkedList()
-
