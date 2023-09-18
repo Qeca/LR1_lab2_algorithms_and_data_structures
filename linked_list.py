@@ -132,3 +132,4 @@ class LinkedList(typing.Generic[T]):
     def push_front(self, data) -> None:
         self.__head = self.__Node(data, next_node=self.__head)
         self.__length += 1
+
