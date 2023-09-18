@@ -1,3 +1,5 @@
+import random
+import operator
 import typing
 T = typing.TypeVar('T', int, bool, float, str)
 
@@ -132,4 +134,21 @@ class LinkedList(typing.Generic[T]):
     def push_front(self, data) -> None:
         self.__head = self.__Node(data, next_node=self.__head)
         self.__length += 1
+
+    def __setitem__(self, index, value):
+        if index < 0:
+            raise IndexError("Вставка по отрицательному индексу не предусмотрена")
+        elif index >= self.__length:
+            raise IndexError("Выход за границы списка")
+        node = self.__head
+        counter = 0
+        while node:
+            if counter == index:
+                node.element = value
+            node = node.next_node
+            counter += 1
+
+    def __del__(self):
+        self.__head = None
+        self.__Node = None
 
