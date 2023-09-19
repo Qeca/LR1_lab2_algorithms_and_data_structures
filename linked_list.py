@@ -1,11 +1,10 @@
-import random
-import operator
 import typing
-T = typing.TypeVar('T', int, bool, float, str)
+
+T = typing.TypeVar('T', 'NoneType', int, bool, float, str)
+LL = typing.TypeVar('LinkedList')
 
 
-class LinkedList(typing.Generic[T]):
-
+class LinkedList:
     class __Node:
 
         def __init__(self, element=None, next_node=None):
@@ -44,7 +43,6 @@ class LinkedList(typing.Generic[T]):
             node = node.next_node
             counter += 1
 
-        self.__length += 1
 
     def __repr__(self) -> str:
         if self.__length == 0:
@@ -58,7 +56,7 @@ class LinkedList(typing.Generic[T]):
             llist_string += f'{node.element}]'
             return llist_string
 
-    def insert(self,index: int, element: T) -> T:
+    def insert(self, index: int, element: T) -> T:
         if index < 0:
             raise IndexError("Вставка по отрицательному индексу не предусмотрена")
         elif index > self.__length + 1:
@@ -130,12 +128,11 @@ class LinkedList(typing.Generic[T]):
         while self.__length:
             self.pop_front()
 
-
     def push_front(self, data) -> None:
         self.__head = self.__Node(data, next_node=self.__head)
         self.__length += 1
 
-    def __setitem__(self, index, value):
+    def __setitem__(self, index: int, value: T) -> None:
         if index < 0:
             raise IndexError("Вставка по отрицательному индексу не предусмотрена")
         elif index >= self.__length:
@@ -148,7 +145,11 @@ class LinkedList(typing.Generic[T]):
             node = node.next_node
             counter += 1
 
-    def __del__(self):
-        self.__head = None
-        self.__Node = None
+        self.__length += 1
 
+llist = LinkedList()
+for i in range(10):
+    llist.append(i)
+print(llist)
+llist.push_front(10)
+print(llist)
