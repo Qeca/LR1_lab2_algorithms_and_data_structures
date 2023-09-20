@@ -1,15 +1,14 @@
-from linked_list import T
 import typing
 
-S = typing.TypeVar("Stack")
+T = typing.TypeVar('T')
 
 
-class Stack:
-    class __Node:
+class Stack(typing.Generic[T]):
+    class __Node(typing.Generic[T]):
 
-        def __init__(self, element=None, next_node=None):
-            self.element = element
-            self.next_node = next_node
+        def __init__(self, element: T = None, next_node: typing.Optional['Stack[T]'] = None):
+            self.element: T = element
+            self.next_node: typing.Optional['Stack[T]'] = next_node
 
     def __init__(self):
         self.__head = None
@@ -30,7 +29,7 @@ class Stack:
     def __len__(self) -> int:
         return self.__length
 
-    def __add__(self, other: S) -> S:
+    def __add__(self, other: 'Stack') -> 'Stack':
         temp = Stack()
         node = self.__head
         counter = 0
@@ -44,37 +43,37 @@ class Stack:
 
         return temp
 
-    def __lt__(self, other: S) -> bool:
+    def __lt__(self, other: 'Stack') -> bool:
         if self.__length < len(other):
             return True
         else:
             return False
 
-    def __le__(self, other: S) -> bool:
+    def __le__(self, other: 'Stack') -> bool:
         if self.__length <= len(other):
             return True
         else:
             return False
 
-    def __eq__(self, other: S) -> bool:
+    def __eq__(self, other: 'Stack') -> bool:
         if self.__length == len(other):
             return True
         else:
             return False
 
-    def __ne__(self, other: S) -> bool:
+    def __ne__(self, other: 'Stack') -> bool:
         if self.__length != len(other):
             return True
         else:
             return False
 
-    def __gt__(self, other: S) -> bool:
+    def __gt__(self, other: 'Stack') -> bool:
         if self.__length > len(other):
             return True
         else:
             return False
 
-    def __ge__(self, other: S) -> bool:
+    def __ge__(self, other: 'Stack') -> bool:
         if self.__length >= len(other):
             return True
         else:

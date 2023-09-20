@@ -4,7 +4,7 @@ from typing import TypeVar, Generic, Optional, Callable, Type
 
 class MySet(Generic[T]):
 
-    def __init__(self, llist=None):
+    def __init__(self, llist: Optional['LinkedList[T]'] = None):
         if llist == None:
             self.__llist = LinkedList()
             i = 0
@@ -47,7 +47,6 @@ class MySet(Generic[T]):
                 k += f'{self.__my_set[i]},'
             k += f'{self.__my_set[self.__length - 1]}' + '}'
         return k
-
 
     def add(self, data: T) -> None:
         if data not in self.__my_set:

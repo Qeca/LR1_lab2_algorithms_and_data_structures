@@ -6,7 +6,7 @@ T = TypeVar('T')
 class LinkedList(Generic[T]):
     class __Node(Generic[T]):
 
-        def __init__(self, element=None, next_node=None):
+        def __init__(self, element: T = None, next_node: Optional['LinkedList[T]'] = None):
             self.element: T = element
             self.next_node: Optional['LinkedList[T]'] = next_node
 
