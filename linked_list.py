@@ -1,15 +1,14 @@
-import typing
+from typing import TypeVar, Generic, Optional, Callable, Type
 
-T = typing.TypeVar('T', 'NoneType', int, bool, float, str)
-LL = typing.TypeVar('LinkedList')
+T = TypeVar('T')
 
 
-class LinkedList:
-    class __Node:
+class LinkedList(Generic[T]):
+    class __Node(Generic[T]):
 
         def __init__(self, element=None, next_node=None):
-            self.element = element
-            self.next_node = next_node
+            self.element: T = element
+            self.next_node: Optional['LinkedList[T]'] = next_node
 
     def __init__(self):
         self.__head = None
@@ -26,14 +25,14 @@ class LinkedList:
             while node.next_node:
                 node = node.next_node
 
-            node.next_node = self.__Node(element)
+            node.next_node = self.__Node[T](element)
 
         self.__length += 1
 
     def __getitem__(self, index: int) -> None:
         if index < 0:
             raise IndexError("Вставка по отрицательному индексу не предусмотрена")
-        elif index >= self.__length:
+        elif index > self.__length:
             raise IndexError("Выход за границы списка")
         node = self.__head
         counter = 0
@@ -43,8 +42,17 @@ class LinkedList:
             node = node.next_node
             counter += 1
 
+    def copy(self) -> 'LinkedList':
+        temp = LinkedList()
+        node = self.__head
+        counter = 0
+        while node:
+            temp.append(node.element)
+            node = node.next_node
+            counter += 1
+        return temp
 
-    def __repr__(self) -> str:
+    def __str__(self) -> str:
         if self.__length == 0:
             return '[]'
         else:
@@ -128,8 +136,8 @@ class LinkedList:
         while self.__length:
             self.pop_front()
 
-    def push_front(self, data) -> None:
-        self.__head = self.__Node(data, next_node=self.__head)
+    def push_front(self, data: T) -> None:
+        self.__head = self.__Node[T](data, next_node=self.__head)
         self.__length += 1
 
     def __setitem__(self, index: int, value: T) -> None:
@@ -146,10 +154,3 @@ class LinkedList:
             counter += 1
 
         self.__length += 1
-
-llist = LinkedList()
-for i in range(10):
-    llist.append(i)
-print(llist)
-llist.push_front(10)
-print(llist)

@@ -1,11 +1,9 @@
-from linked_list import LinkedList, T, LL
-import typing
-
-MS = typing.TypeVar('MySet')
-F = typing.TypeVar('F', int, bool)
+from linked_list import LinkedList, T
+from typing import TypeVar, Generic, Optional, Callable, Type
 
 
-class MySet:
+class MySet(Generic[T]):
+
     def __init__(self, llist=None):
         if llist == None:
             self.__llist = LinkedList()
@@ -35,14 +33,12 @@ class MySet:
         self.__length = len(self.__llist)
 
     def __getitem__(self, index: int) -> T:
-        for i in range(len(self.__my_set)):
-            if i == index:
-                return self.__my_set[i]
+        return self.__my_set[index]
 
     def __len__(self) -> int:
         return self.__length
 
-    def __repr__(self) -> str:
+    def __str__(self) -> str:
         if self.__length == 0:
             return '{}'
         else:
@@ -51,6 +47,7 @@ class MySet:
                 k += f'{self.__my_set[i]},'
             k += f'{self.__my_set[self.__length - 1]}' + '}'
         return k
+
 
     def add(self, data: T) -> None:
         if data not in self.__my_set:
@@ -61,38 +58,45 @@ class MySet:
         self.__length -= 1
         return self.__my_set.pop(index)
 
-    def union(self, my_set_1: MS) -> None:
-        my_set_2 = MySet()
-        if len(my_set_1) >= len(self.__my_set):
-            for i in range(len(my_set_1)):
-                if my_set_1[i] not in self.__my_set:
-                    self.__my_set.append(my_set_1[i])
-                    self.__length += 1
+    def union(self, my_set_1: 'MySet') -> 'MySet':
+        temp = MySet(self.__my_set.copy())
+        temp_1 = MySet(my_set_1.copy())
+        if len(temp_1) >= len(temp):
+            for i in range(len(temp_1)):
+                if temp_1[i] not in temp:
+                    temp.add(temp_1[i])
+            return temp
+
 
         else:
-            for j in range(self.__length):
-                if self.__my_set[j] not in my_set_1:
-                    my_set_1.append(self.__my_set[j])
-                    self.__length += 1
-            self.__my_set = my_set_1
+            for j in range(len(temp)):
+                if temp not in temp_1:
+                    temp_1.add(temp[j])
+            temp = temp_1
+            return temp
 
-    def intersect(self, my_set_1: MS) -> None:
-        if len(my_set_1) >= len(self.__my_set):
+    def copy(self) -> 'LinkedList':
+        return self.__my_set.copy()
+
+    def intersect(self, my_set_1: 'MySet') -> "MySet":
+        temp = MySet(self.__my_set.copy())
+        temp_1 = MySet(my_set_1.copy())
+        if len(temp_1) >= len(temp):
             my_set_2 = MySet()
-            for i in range(len(my_set_1)):
-                if my_set_1[i] in self.__my_set:
+            for i in range(len(temp_1)):
+                if temp_1[i] in temp:
                     my_set_2.add(my_set_1[i])
-            self.__my_set = my_set_2
-            self.__length = len(my_set_2)
+            temp = my_set_2
+            return temp
         else:
             my_set_2 = MySet()
-            for i in range(len(self.__my_set)):
-                if self.__my_set[i] in my_set_1:
-                    my_set_2.add(self.__my_set[i])
-            self.__my_set = my_set_2
-            self.__length = len(my_set_2)
+            for i in range(len(temp)):
+                if temp[i] in temp_1:
+                    my_set_2.add(temp[i])
+            temp = my_set_2
+            return temp
 
-    def find_bin(self, value: T) -> F:
+    def find_bin(self, value: T) -> T:
         mid = len(self.__my_set) // 2
         low = 0
         high = len(self.__my_set) - 1
@@ -107,10 +111,10 @@ class MySet:
             return False
         else:
             return mid
-    def find(self, value: T) -> F:
 
+    def __contains__(self, value: T) -> bool:
         for i in range(len(self.__my_set)):
             if self.__my_set[i] == value:
-                return i
+                return True
         else:
             return False

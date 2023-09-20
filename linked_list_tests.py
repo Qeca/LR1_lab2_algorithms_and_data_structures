@@ -100,6 +100,13 @@ class TestLinkedList(unittest.TestCase):
         llist.push_front(55)
         self.assertEqual(f'{llist}', '[55,0,1,2,3,4,5,6,7,8,9,10]')
 
+    def test_copy(self):
+        llist = LinkedList()
+        for i in range(11):
+            llist.append(i)
+
+        self.assertEqual(f'{llist.copy()}','[0,1,2,3,4,5,6,7,8,9,10]')
+
 
 if __name__ == '__main__':
     unittest.main()
