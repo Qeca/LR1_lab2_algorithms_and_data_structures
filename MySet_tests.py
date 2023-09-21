@@ -43,11 +43,11 @@ class MySetTests(unittest.TestCase):
             my_set.add(i)
         self.assertEqual(f'{my_set.find_bin(2)}','2')
 
-    def test_find(self):
+    def test_contains(self):
         my_set = MySet()
         for i in range(5):
             my_set.add(i)
-        self.assertEqual(f'{my_set.find(2)}','2')
+        self.assertEqual(2 in my_set,True)
 
 if __name__ == '__main__':
     unittest.main()
