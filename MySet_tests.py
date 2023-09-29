@@ -49,5 +49,12 @@ class MySetTests(unittest.TestCase):
             my_set.add(i)
         self.assertEqual(2 in my_set,True)
 
+    def test_remove(self):
+        my_set = MySet()
+        for i in range(5):
+            my_set.add(i)
+        my_set.remove(3)
+        self.assertEqual(f"{my_set}",'{0,1,2,4}')
+
 if __name__ == '__main__':
     unittest.main()

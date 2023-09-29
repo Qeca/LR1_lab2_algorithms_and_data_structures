@@ -121,7 +121,6 @@ class Stack(typing.Generic[T]):
         counter = 0
         while node:
             if counter == self.__length - 1:
-                k = node.element
-                return k
+                return node.element
             node = node.next_node
             counter += 1

@@ -1,5 +1,4 @@
 import timeit
-import time
 
 from linked_list import LinkedList
 from MySet import MySet

@@ -7,16 +7,6 @@ class MySet(Generic[T]):
     def __init__(self, llist: Optional['LinkedList[T]'] = None):
         if llist == None:
             self.__llist = LinkedList()
-            i = 0
-            j = len(self.__llist)
-            while i < j - 1:
-                if self.__llist[i] == self.__llist[i + 1]:
-                    self.__llist.pop(i)
-                    j -= 1
-                    if i > 0:
-                        i -= 1
-                else:
-                    i += 1
         else:
             self.__llist = llist
             i = 0
@@ -32,11 +22,11 @@ class MySet(Generic[T]):
         self.__my_set = self.__llist
         self.__length = len(self.__llist)
 
-    def __getitem__(self, index: int) -> T:
-        return self.__my_set[index]
-
     def __len__(self) -> int:
         return self.__length
+
+    def __getitem__(self, index: int) -> T:
+        return self.__my_set[index]
 
     def __str__(self) -> str:
         if self.__length == 0:
@@ -53,9 +43,12 @@ class MySet(Generic[T]):
             self.__my_set.append(data)
             self.__length += 1
 
-    def pop(self, index: int) -> T:
-        self.__length -= 1
-        return self.__my_set.pop(index)
+    def remove(self, value: int) -> None:
+        k = 0
+        for i in range(len(self.__my_set)):
+            if self.__my_set[i] == value:
+                self.__length -= 1
+                return self.__my_set.pop(i)
 
     def union(self, my_set_1: 'MySet') -> 'MySet':
         temp = MySet(self.__my_set.copy())
